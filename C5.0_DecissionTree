@@ -7,7 +7,7 @@ library(gmodels)
 
 # parameters
 n <- nrow(mydata)                     # number of observables
-ntrain <- round(n*(2/3))                  # number of training examples
+ntrain <- round(n*(2/3))              # number of training examples
 lcol = ncol(mydata)-1                 # col of the last input atributes
 
 # get the subsets train and test
