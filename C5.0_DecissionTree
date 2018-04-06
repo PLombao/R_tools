@@ -1,0 +1,76 @@
+library(C50)
+library(gmodels)
+
+# C5.0 Decission Tree
+
+## mydata input
+
+# parameters
+n <- nrow(mydata)                     # number of observables
+ntrain <- round(n*(2/3))                  # number of training examples
+lcol = ncol(mydata)-1                 # col of the last input atributes
+
+# get the subsets train and test
+tindex <- sample(n,ntrain)            # index of training samples (random)
+xtrain <- mydata[tindex,1:lcol]       # data for training
+xtest  <- mydata[-tindex,1:lcol]      # data for test
+ytrain <- mydata[tindex,lcol+1]       # labels for training
+ytest  <- mydata[-tindex, lcol+1]     # labels for test
+
+# train our model
+model <- C50::C5.0(xtrain, ytrain)
+
+summary(model)                        # get a summary of the C50 object
+plot(model)                           # represent the tree
+
+# test the model with the test data
+estimated_ytest <- predict(model_boost10, xtest, type="class")
+
+# confussion matrix
+gmodels::CrossTable(ytest, estimated_ytest,
+           prop.chisq = FALSE, prop.c = FALSE, prop.r = FALSE,
+           dnn = c('actual', 'predicted'))
+
+# calculate accuracy and error of the model with the test data
+(accuracy <- sum(ytest==estimated_ytest)/length(ytest))
+(error <- 1- accuracy)
+
+
+# -------------------------------------------------------------------
+# we can boost the model with 10 trials (standard)
+model_b10 <- C50::C5.0(xtrain, ytrain,
+                       trials = 10)
+
+# test the model with the test data
+estimated_ytest_b10 <- predict(model_b10, xtest, type="class")
+
+# calculate accuracy and error of the model with the test data
+accuracy_b10 <- sum(ytest==estimated_ytest_b10)/length(ytest)
+(error_b10 <- 1- accuracy_b10)
+
+# -------------------------------------------------------------------
+# we can change the prunning
+model_pr <- C50::C5.0(xtrain, ytrain,
+                           control = C5.0Control(noGlobalPruning = TRUE))
+
+# en la funcion control tambien se puede cambiar otros lógicos como:
+# subset, winnow, noGlobalPruning, fuzzyThreshold, earlyStopping, etc.
+
+# test the model with the test data
+estimated_ytest_pr <- predict(model_pr, xtest, type="class")
+
+# calculate accuracy and error of the model with the test data
+accuracy_pr <- sum(ytest==estimated_ytest_pr)/length(ytest)
+(error_pr <- 1- accuracy_pr)
+
+#--------------------------------------------------------------------
+# we can add some cost to the false negatives of positives
+
+# creation of the error cost matrix
+pred_labels <- levels(ytest)
+dim_matrix <- list(pred_labels,pred_labels)
+error_cost <- matrix(c(0, 1, 4, 0), nrow=2,
+                     dimnames = dim_matrix)
+
+model_cost <- C50::C5.0(xtrain, ytrain,
+                        cost = error_cost)
