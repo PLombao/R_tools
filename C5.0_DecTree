@@ -74,3 +74,14 @@ error_cost <- matrix(c(0, 1, 4, 0), nrow=2,
 
 model_cost <- C50::C5.0(xtrain, ytrain,
                         cost = error_cost)
+# ---------------------------------------------------------------------------------
+# change the rules parameter
+# we train the model
+model_rules <- C50::C5.0(xtrain, ytrain, rules = TRUE)
+
+# test the model with the test data
+estimated_ytest <- predict(model_rules, xtest, type="class")
+
+# calculate accuracy and error of the model with the test data
+accuracy_rules <- sum(ytest==estimated_ytest)/length(ytest)
+(error_rules <- 1- accuracy_rules)
