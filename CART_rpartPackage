@@ -1,0 +1,50 @@
+## CART DECISION TREE - RPART PACKAGE 
+
+# load the libraries needed for this
+library(rpart)
+library (rattle)
+library(rpart.plot)
+library(RColorBrewer)
+
+# we going to create a decision tree for a dataframe train
+# with var1, var2 as the decission variables 
+# and Labels column as the labels
+
+# Build the decision tree (method = class for classification)
+model_cart <- rpart::rpart(Labels ~ var1 + var2 , data = train, 
+                            method = "class")
+
+# Time to plot your fancy tree
+rattle::fancyRpartPlot(model_cart)
+
+# Make predictions on the test set
+my_prediction <- predict(model_cart, newdata = test, type = "class")
+
+# calculate accuracy and error of the model with the test data
+accuracy <- sum(test$Labels==my_prediction)/length(test$Labels)
+(error <- 1- accuracy)
+
+#---------------------------------------------------------------------------
+"
+In rpart, the amount of detail is defined by two parameters:
+
+    cp determines when the splitting up of the decision tree stops.
+        so cp = 0 no stopping of the splits
+    minsplit determines the minimum amount of observations in a leaf of the tree.
+        and minsplit = 2 is the smallest leaf possible
+"
+
+# we change minsplit and cp for better tree
+model_cart2 <- rpart::rpart(Labels ~ var1 + var2 , data = train,
+                     method = "class", 
+                     control = rpart.control(minsplit = 50, cp = 0))
+
+# Visualize my_tree_three
+rattle::fancyRpartPlot(model_cart2)
+
+# Make predictions on the test set
+my_prediction2 <- predict(model_cart2, newdata = test, type = "class")
+
+# calculate accuracy and error of the model with the test data
+accuracy2 <- sum(test$Labels==my_prediction2)/length(test$Labels)
+(error2 <- 1- accuracy2)
