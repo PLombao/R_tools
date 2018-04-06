@@ -1,0 +1,32 @@
+APPLY FAMILY
+
+# APPLY FAMILY
+
+vector = c(1,2,3,4,-5)
+f <- function(x, return = FALSE){
+  if (return){
+    2*x
+  }
+}
+# apply a function over each element of a list of vector with LAPPLY, it returns a list
+unlist(lapply(vector, f, return = NULL)) # we use unlist to have a vector
+
+# Use anonymous function inside lapply()
+lapply(vector, function(x) { 3 * x })
+
+# do the same as lapply but with better visualziation: try to simplify list to array
+#sapply returns a vector or matrix (or a list when simplification can be reached)
+# with column and row names if there exist
+sapply(vector, max)
+
+# with vapply you can choose the output format
+# Definition of basics()
+basics <- function(x) {
+  c(min = min(x), mean = mean(x), max = max(x))
+}
+
+# Apply basics() over temp using vapply(): we choose a numeric vector of length 3
+vapply(temp, basics, numeric(3))
+
+#------------------------------------------------------------------------------------------------------------------
+
