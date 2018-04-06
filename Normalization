@@ -1,0 +1,72 @@
+# Variable a normalizar
+x <- -(mydata$loudness)
+
+# definimos función con nuestras variables estadísticas
+estad <- function(x) {
+  est <- cbind(mean(x), median(x), sd(x),t(quantile(x)))
+  return(round(est,4))
+}
+
+# aplicamos la función de resumen a nuestra variable
+sum_estad <- estad(x)
+
+# le cambiamos nombres a las columnas
+colnames(sum_estad) <- c("Media", "Mediana", "Desv.Est.", "Min.",
+                         "Q1", "Q2", "Q3", "Max.")
+
+#obtenemos el summary estadistico
+print(sum_estad)
+
+# pintamos el boxplot de la variable
+boxplot(x, col = "pink", main="Boxplot para variable", ylab="Variable")
+
+# normalización por el máximo
+max_norm <- x/max(x)
+
+# normalización por la diferencia
+dif_norm <- (x-min(x))/(max(x)-min(x))
+
+# escalado decimal
+esc_dec <- x/(10^2)
+
+# generamos una comparativa de histogramas
+#par(mfrow=c(2,2))
+hist(x,col="light yellow", main="1. Hist. variable no normalizada", xlab = "# Variable a normalizar
+x <- -(mydata$loudness)
+
+# definimos función con nuestras variables estadísticas
+estad <- function(x) {
+  est <- cbind(mean(x), median(x), sd(x),t(quantile(x)))
+  return(round(est,4))
+}
+
+# aplicamos la función de resumen a nuestra variable
+sum_estad <- estad(x)
+
+# le cambiamos nombres a las columnas
+colnames(sum_estad) <- c("Media", "Mediana", "Desv.Est.", "Min.",
+                         "Q1", "Q2", "Q3", "Max.")
+
+#obtenemos el summary estadistico
+print(sum_estad)
+
+# pintamos el boxplot de la variable
+boxplot(x, col = "pink", main="Boxplot para Loudness", ylab="Loudness (db)")
+
+# normalización por el máximo
+max_norm <- x/max(x)
+
+# normalización por la diferencia
+dif_norm <- (x-min(x))/(max(x)-min(x))
+
+# escalado decimal
+esc_dec <- x/(10^2)
+
+# generamos una comparativa de histogramas
+#par(mfrow=c(2,2))
+hist(x,col="light yellow", main="1. Hist. variable no normalizada", xlab = "x (u)")
+hist(esc_dec, col="light green", main="2. Hist. escalado decimal", xlab = " escala 1/100")
+hist(max_norm, col = "light blue", main="3. Hist. normalización por el máximo", xlab = "x/max")
+hist(dif_norm, col="light grey", main="4. Hist. normalización por la diferencia", xlab = "x norm por la dif")
+
+#dev.off()")
