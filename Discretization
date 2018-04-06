@@ -1,0 +1,22 @@
+# nombramos la variable a discretizar
+t <- mydata$tempo
+
+# discretizamos tempo en 2 intervalos de igual amplitud
+t_amp <- discretize(t, "interval",categories=3)
+
+# discretizamos tempo en 2 intervalos de igual frecuencia
+t_frec <- discretize(t, "frequency",categories=3)
+
+#discretiazmos en 2 intervalos mediante el método k-means
+t_kmeans <- discretize(t, "cluster",categories=3)
+
+# frecuencias de los 3 metodos
+print(table(t_amp))
+print(table(t_frec))
+print(table(t_kmeans))
+
+# representamos el histograma con los límites de los intervalos según método
+hist(t, breaks=20, main="Title of the chart", xlab="xlab")
+abline(v=discretize(t, "interval", categories=3, onlycuts=TRUE), col="red")
+abline(v=discretize(t, "frequency", categories=3, onlycuts=TRUE), col="blue")
+abline(v=discretize(t, "cluster", categories=3, onlycuts=TRUE), col="orange")
