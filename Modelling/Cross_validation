@@ -1,0 +1,16 @@
+' This take a dataframe mydata and then divided in 10 equally size folds for iterating over and get a 10 simulation cross validation'
+
+#Randomly shuffle the data
+mydata<-mydata[sample(nrow(mydata)),]
+
+#Create 10 equally size folds
+folds <- cut(seq(1,nrow(mydata)),breaks=10,labels=FALSE)
+
+for(i in 1:10){
+  i=1
+  #Segement your data by fold using the which() function 
+  testIndexes <- which(folds==i,arr.ind=TRUE)
+  testData <- mydata[testIndexes, ]
+  trainData <- mydata[-testIndexes, ]
+  #Use the test and train data partitions however you desire...
+}
