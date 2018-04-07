@@ -46,7 +46,68 @@ unlist(): Flatten (possibly embedded) lists to produce a vector.
 
 #------------------------------------------------------------------------------------------------------------------
 #REGULAR EXPRESSIONS
+
+# regular expressions
+
+# grepl search a pattern in a character vector returning a logical vector
+grepl(pattern="edu", emails)
+
+# grep return the indices of the TRUES of grepl
+grep(pattern = "@.*\\.edu$", emails)
+
+# sub search for a pattern and replaces it when first is found (and no more for element)
+sub(".*\\s([0-9]+)\\snomination.*$", "\\1", awards)
+
+# gsub replaces all the patterns in each elements
+
+"
+pattern:
+last character a$
+first ch: ^a
+more than one character: a | i | o
+.*: A usual suspect! It can be read as 'any character that is matched zero or more times'.
+\\s: Match a space. The "s" is normally a character, escaping it (\\) makes it a metacharacter.
+[0-9]+: Match the numbers 0 to 9, at least once (+).
+([0-9]+): The parentheses are used to make parts of the matching string available to define the replacement. The \\1 in the replacement argument of sub() gets set to the string that is captured by the regular expression [0-9]+.
+
+"
 #------------------------------------------------------------------------------------------------------------------
+
+# DATES AND TIMES
+# Get the current date: today (Date object)
+today <- Sys.Date()
+
+# Get the current time: now (POSIXct object)
+now <- Sys.time()
+
+# string to date or POSIXct
+as.Date("String", format = "%b %d, '%y")
+as.POSIXct(str1, format = "%B %d, '%y hours:%H minutes:%M seconds:%S")
+
+# dates to string
+format(Sys.Date(), format = "%d %B, %Y")
+
+#full conversion list
+?strptime
+
+"
+%Y: 4-digit year (1982)
+%y: 2-digit year (82)
+%m: 2-digit month (01)
+%d: 2-digit day of the month (13)
+%A: weekday (Wednesday)
+%a: abbreviated weekday (Wed)
+%B: month (January)
+%b: abbreviated month (Jan)
+
+%H: hours as a decimal number (00-23)
+%I: hours as a decimal number (01-12)
+%M: minutes as a decimal number
+%S: seconds as a decimal number
+%T: shorthand notation for the typical format %H:%M:%S
+%p: AM/PM indicator
+
+"
 #------------------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------------------
