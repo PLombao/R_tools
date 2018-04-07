@@ -67,7 +67,7 @@ for (li in linkedin) {
   print(li)
 }
 
-#### CREATING A ITERATING LIST
+#### CREATING A ITERATING LIST of LISTS
 failures <- list()
 
 # Finish the for loop: add each failure to failures
@@ -77,6 +77,15 @@ for (log in logs) {
   }
 }
 
+## ITERATING FOR CREATE A VECTOR OF PROPERTIES OF A LIST
+# Add default value for property argument
+extract_info <- function(x, property) {
+  info <- c()
+  for (log in x) {
+   info <- c(info, log[[property]])
+  }
+  return(info)
+}
 # --------------------------------------------------------------------------
 # Functions
 sum_abs <- function(x,y) {
