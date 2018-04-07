@@ -67,6 +67,16 @@ for (li in linkedin) {
   print(li)
 }
 
+#### CREATING A ITERATING LIST
+failures <- list()
+
+# Finish the for loop: add each failure to failures
+for (log in logs) {
+  if (!log$success) {
+    failures <- c(failures, list(log))
+  }
+}
+
 # --------------------------------------------------------------------------
 # Functions
 sum_abs <- function(x,y) {
