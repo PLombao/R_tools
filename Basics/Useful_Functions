@@ -1,3 +1,8 @@
+x <- list(a = 1, b = 2, c = 3)
+# this functions select the "a" column of the list x just as x[["a"]] does
+`[[`(x, "a")
+
+#---------------------------------------------------------------------------------------------------------------------
 APPLY FAMILY
 
 # APPLY FAMILY
@@ -13,6 +18,9 @@ unlist(lapply(vector, f, return = NULL)) # we use unlist to have a vector
 
 # Use anonymous function inside lapply()
 lapply(vector, function(x) { 3 * x })
+
+# this select the element 2 of a list x
+lapply(x, `[[`, 2)
 
 # do the same as lapply but with better visualziation: try to simplify list to array
 #sapply returns a vector or matrix (or a list when simplification can be reached)
