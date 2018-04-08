@@ -1,3 +1,9 @@
+# define an auxiliar function that give us the error of a model from a giving test dataset
+get_error <- function(model, x = test) {
+  1 - sum(x[,labelcol]==predict(model, x[,datacol], type="class"))/length(x[,labelcol])
+}
+
+#--------------------------------------------------------------------------------------------------------------------------------
 ' This take a dataframe mydata and then divided in 10 equally size folds for iterating over and get a 10 simulation cross validation'
 
 #Randomly shuffle the data
@@ -6,10 +12,21 @@ mydata<-mydata[sample(nrow(mydata)),]
 #Create 10 equally size folds
 folds <- cut(seq(1,nrow(mydata)),breaks=10,labels=FALSE)
 
+error <- c()
+
 for(i in 1:10){
   #Segement your data by fold using the which() function 
   testIndexes <- which(folds==i,arr.ind=TRUE)
-  testData <- mydata[testIndexes, ]
-  trainData <- mydata[-testIndexes, ]
+  test <- mydata[testIndexes, ]
+  train <- mydata[-testIndexes, ]
   #Use the test and train data partitions however you desire...
+  
+  # here put the model
+  model <-rpart::rpart(label ~ IQR + meanfun + mindom + sfm + maxdom + meanfreq , data = train, 
+                             method = "class")
+  error <- c(error, get_error(mode, test))
+  
 }
+
+# this get us the mean error
+mean(error)
