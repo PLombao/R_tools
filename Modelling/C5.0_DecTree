@@ -11,6 +11,7 @@ ntrain <- round(n*(2/3))              # number of training examples
 lcol = ncol(mydata)-1                 # col of the last input atributes
 
 # get the subsets train and test
+set.seed(1)
 tindex <- sample(n,ntrain)            # index of training samples (random)
 xtrain <- mydata[tindex,1:lcol]       # data for training
 xtest  <- mydata[-tindex,1:lcol]      # data for test
@@ -24,7 +25,7 @@ summary(model)                        # get a summary of the C50 object
 plot(model)                           # represent the tree
 
 # test the model with the test data
-estimated_ytest <- predict(model_boost10, xtest, type="class")
+estimated_ytest <- predict(model, xtest, type="class")
 
 # confussion matrix
 gmodels::CrossTable(ytest, estimated_ytest,
@@ -42,11 +43,11 @@ model_b10 <- C50::C5.0(xtrain, ytrain,
                        trials = 10)
 
 # test the model with the test data
-estimated_ytest_b10 <- predict(model_b10, xtest, type="class")
+estimated_ytest_b10 <- 
 
 # calculate accuracy and error of the model with the test data
-accuracy_b10 <- sum(ytest==estimated_ytest_b10)/length(ytest)
-(error_b10 <- 1- accuracy_b10)
+error_b10 <- 1 - sum(ytest==predict(model_b10, xtest, type="class"))/length(ytest)
+
 
 # -------------------------------------------------------------------
 # we can change the prunning
