@@ -48,3 +48,26 @@ my_prediction2 <- predict(model_cart2, newdata = test, type = "class")
 # calculate accuracy and error of the model with the test data
 accuracy2 <- sum(test$Labels==my_prediction2)/length(test$Labels)
 (error2 <- 1- accuracy2)
+
+#---------------------------------------------------------------------------------
+# define a function that give us the error of a model from a giving test dataset
+get_error <- function(model, x = test) {
+  1 - sum(x[,labelcol]==predict(model, x[,datacol], type="class"))/length(x[,labelcol])
+}
+
+# CART decision tree variation study
+
+errors_c <- data.frame(error = double(),
+                      minsplit = integer(),
+                      cp = double())
+for (i in 2:100) {
+  for (j in 1:10) {
+    model_c2 <- rpart::rpart(label ~ IQR + meanfun , data = train,
+                                method = "class", 
+                                control = rpart.control(minsplit = i, cp = (1/(10^j))))
+  
+    errors_c[nrow(errors_c)+1,] <- c(get_error(model_c2), i, (1/(10^j)))
+  }
+}
+
+errors_c[errors_c$error == min(errors_c$error),]
