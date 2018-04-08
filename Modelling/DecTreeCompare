@@ -1,0 +1,53 @@
+## Decisions Tree Comparisions 
+### C5.0 with different boosting, pruning and winnow
+### CART
+
+## mydata input
+
+# parameters
+n <- nrow(mydata)                     # number of observables
+ntrain <- round(n*(2/3))              # number of training examples
+datacol <- 1:(ncol(mydata)-1)         # columns with the data
+labelcol<- ncol(mydata)               # column with the labels
+
+# get the subsets train and test
+set.seed(1)
+tindex <- sample(n,ntrain)            # index of training samples (random)
+train <- mydata[tindex,]              # data for training
+test  <- mydata[-tindex,]             # data for test
+
+#------------------------------------------------------------------------------------
+# define a function that give us the error of a model from a giving test dataset
+get_error <- function(model, x = test) {
+  1 - sum(x[,labelcol]==predict(model, x[,datacol], type="class"))/length(x[,labelcol])
+}
+
+#-------------------------------------------------------------------------------------
+
+#C5.0 with no parameter configuration
+
+# we train a c50 with no parameter configuration
+model <- C50::C5.0(train[,datacol], train[,labelcol])
+# calculate accuracy and error of the model with the test data
+error <- get_error(model)
+#-------------------------------------------------------------------------------------------
+
+#C5.0 boosting study
+
+error_b <- ()
+for (i in 1:30){
+  model_b <- C50::C5.0(train[,datacol], train[,labelcol],
+                       trials = i)
+  # calculate accuracy and error of the model with the test data
+  error_b <- c(error_b, get_error(model_b))
+}
+
+#-------------------------------------------------------------------------------------------
+
+# CART decission tree
+
+# Build the decision tree (method = class for classification)
+model_cart <- rpart::rpart(Labels ~ var1 + var2 , data = train, 
+                           method = "class")
+
+#--------------------------------------------------------------------------------------------
