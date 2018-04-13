@@ -1,0 +1,14 @@
+# calculamos el boxplot de HS
+ggplot(mydata, aes("", HS)) + 
+  geom_boxplot(fill="light blue", outlier.colour = "red") +
+  stat_boxplot(geom ='errorbar', width = 0.3) +
+  labs(title="Boxplot de Hapiness Score",
+       x ="", y = "Hapiness Score")
+
+# calculamos el boxplot de HS por región
+ggplot(mydata, aes(Region, HS)) + 
+  geom_boxplot(fill="light blue", outlier.colour = "red") + 
+  stat_boxplot(geom ='errorbar', width = 0.3) +
+  coord_flip()  +
+  labs(title="Boxplot de Hapiness Score por Región",
+       x ="", y = "Hapiness Score")
