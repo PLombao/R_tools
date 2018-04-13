@@ -1,0 +1,81 @@
+# get the outliers
+boxplot(x, plot=FALSE)$out)
+
+# we get x without outliers
+x_out <- x[-which(x %in% boxplot(x, plot=FALSE)$out)]
+
+#-----------------------------------------------------------------------------------------------
+
+# calculate stats_ mean, 5 numbers summary (min, Q1, median, Q3 and max)
+
+# definimos una función que nos devuelva la media, la mediana y el sumario de 5 nums de Tukey
+my_estad <- function(x, name="", naremove = FALSE){
+  estad <- cbind(mean(x, na.rm = naremove), 
+                 t(quantile(x, na.rm = naremove)))
+  
+  colnames(estad) <- c("Media", "Min.", "Q1", "Mediana", "Q3", "Max.")
+  row.names(estad) <- name
+  return(round(estad,4))
+}
+
+# -----------------------------------------------------------------------------------------
+# definimos una función que nos devuelva la desv estándar, el RIC y el var
+my_estad2 <- function(x, name="", naremove = FALSE){
+  estad <- cbind(sd(x, na.rm = naremove),
+                 IQR(x, na.rm = naremove),
+                 var(x, na.rm = naremove),
+                 mad(x, na.rm = naremove))
+  
+  colnames(estad) <- c("Desv. Est.", "RIC", "Varianza", "Desv Abs Mediana")
+  row.names(estad) <- name
+  return(round(estad,4))
+}
+
+#-------------------------------------------------------------------------------------------
+
+# función que calcula medidas centrales robustas y no robustas con y sin outliers
+my_estad3 <- function(x, name="", naremove = TRUE) {
+  # calcular x sin outliers
+  x_out <- x[-which(x %in% boxplot(x, plot=FALSE)$out)]
+  
+  # calcular medidas centrales con outliers
+  estad <- cbind(mean(x, na.rm = naremove), 
+                 median(x, na.rm=naremove),
+                 mean(x,trim=0.05, na.rm = naremove),
+                 psych::winsor.mean(x,trim=0.05, na.rm = naremove))
+                 
+  # calcular medidas centrales con outliers
+  estad <- rbind(estad, cbind(mean(x_out, na.rm = naremove), 
+                              median(x_out, na.rm=naremove),
+                              mean(x_out,trim=0.05, na.rm = naremove),
+                              psych::winsor.mean(x_out,trim=0.05, na.rm = naremove)))
+
+  colnames(estad) <- c("Media", "Mediana", "Media Trim5%", "Media Wins5%")
+  row.names(estad) <- c(paste(name, " con outliers"),
+                        paste(name, "Sin outliers"))
+  return(round(estad,4))
+}
+
+#-------------------------------------------------------------------------------------------
+
+# función que calcula desviaciones rob y no rob con y sin outliers
+my_estad4 <- function(x, name="", naremove = FALSE){
+  # calcular x sin outliers
+  x_out <- x[-which(x %in% boxplot(x, plot=FALSE)$out)]
+  
+  estad <- cbind(sd(x, na.rm = naremove),
+                 IQR(x, na.rm = naremove),
+                 var(x, na.rm = naremove),
+                 mad(x, na.rm = naremove))
+  
+  estad <- rbind(estad, cbind(sd(x_out, na.rm = naremove),
+                              IQR(x_out, na.rm = naremove),
+                              var(x_out, na.rm = naremove),
+                              mad(x_out, na.rm = naremove)))
+  
+  
+  colnames(estad) <- c("Desv. Est.", "RIC", "Varianza", "Desv Abs Mediana")
+  row.names(estad) <- c(paste(name, " con outliers"),
+                        paste(name, "Sin outliers"))
+  return(round(estad,4))
+}
