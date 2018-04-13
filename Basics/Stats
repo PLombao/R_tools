@@ -4,6 +4,16 @@ boxplot(x, plot=FALSE)$out)
 # we get x without outliers
 x_out <- x[-which(x %in% boxplot(x, plot=FALSE)$out)]
 
+# from mydata get the outliers of "Numeric" for each level of "Factor
+outs <- c()
+for (name in levels(mydata$Region)) {
+  outlier <- mydata$Name[which(mydata$Numeric %in% boxplot(mydata$Numeric[mydata$Factor == name], plot = FALSE)$out)]
+  outlier <- as.character(outlier)
+  if (length(outlier) > 0){
+    outs <- rbind(outs, cbind(outlier, name))
+  }
+}
+
 #-----------------------------------------------------------------------------------------------
 
 # calculate stats_ mean, 5 numbers summary (min, Q1, median, Q3 and max)
