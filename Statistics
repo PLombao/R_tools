@@ -4,6 +4,13 @@ boxplot(x, plot=FALSE)$out)
 # we get x without outliers
 x_out <- x[-which(x %in% boxplot(x, plot=FALSE)$out)]
 
+# identify outliers (valor of the numeric with the name)
+outliers <- boxplot(mydata$Numeric, plot = FALSE)$out
+names(outliers) <- as.vector(mydata$Names[which(mydata$Numeric %in% boxplot(mydata$Numeric, plot = FALSE)$out)])
+
+# get the outliers of a numeric depending of a factor
+outlier <- mydata$Name[which(mydata$Numeric %in% boxplot(mydata$Numeric[mydata$Factor == name], plot = FALSE)$out)]
+
 # from mydata get the outliers of "Numeric" for each level of "Factor
 outs <- c()
 for (name in levels(mydata$Region)) {
