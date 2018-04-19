@@ -1,0 +1,34 @@
+library(ggplot2)
+library(devtools)
+#install_github("easyGgplot2", "kassambara")
+library(easyGgplot2)
+
+p1 <- ggplot(seguros, aes(seguros$Edad)) + 
+  geom_histogram(aes(y=5*..density..),
+                 breaks=seq(15,80, by = 5),
+                 col = "black", fill = "orange") + 
+  labs(title="Histograma para Edad") +
+  labs(x="Años del Cliente", y="Frecuencia")
+
+p2 <- ggplot(seguros, aes(seguros$Años.Coche)) + 
+  geom_histogram(aes(y=2*..density..),
+                 breaks=seq(0,20, by = 2),
+                  col = "black", fill = "orange") + 
+  labs(title="Histograma para Años.Coche") +
+  labs(x="Edad del coche", y="Frecuencia")
+
+p3 <- ggplot(seguros, aes(seguros$Caballos)) + 
+       geom_histogram(aes(y=10*..density..),
+                      binwidth = 10,
+                      col = "black", fill = "orange") + 
+  labs(title="Histograma para Caballos") +
+  labs(x="Caballos del Coche", y="Frecuencia")
+
+p4 <- ggplot(seguros, aes(seguros$Costos)) + 
+  geom_histogram(aes(y=10000*..density..),
+                 binwidth = 10000,
+                 col = "black", fill = "orange") + 
+                  labs(title="Histograma para Costos") +
+                  labs(x="Costos", y="Frecuencia")
+
+ggplot2.multiplot(p1, p2, p3, p4, cols=2)
