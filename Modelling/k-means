@@ -1,3 +1,6 @@
+library(cluster)    # clustering algorithms
+library(factoextra) # clustering algorithms & visualization
+
 # primero hay que normalizar los datos -> x
 
 # ------------------------------------------------------------------
