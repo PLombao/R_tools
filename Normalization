@@ -70,3 +70,8 @@ hist(max_norm, col = "light blue", main="3. Hist. normalización por el máximo"
 hist(dif_norm, col="light grey", main="4. Hist. normalización por la diferencia", xlab = "x norm por la dif")
 
 #dev.off()")
+
+###############################################################################
+# normalización a distribucion normal
+
+x <- scale(x)
