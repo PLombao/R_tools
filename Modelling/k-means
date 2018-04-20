@@ -1,0 +1,41 @@
+# primero hay que normalizar los datos -> x
+
+# ------------------------------------------------------------------
+# clustering usando 2 clusters
+# ------------------------------------------------------------------
+fit       <- kmeans(x, 2)
+y_cluster <- fit$cluster
+
+#visualizar los clusters
+plot(x[y_cluster==1,],col='blue', xlim=c(min(x[,1]), max(x[,1])), ylim=c(min(x[,2]), max(x[,2])))
+points(x[y_cluster==2,],col='red')
+
+# Otra forma de ver los clusters
+clusplot(x, fit$cluster, color=TRUE, shade=TRUE, labels=2, lines=0)
+
+# otra más
+fviz_cluster(fit, data = x)
+
+# calculo de la silueta
+d  <- daisy(x) 
+sk <- silhouette(y_cluster, d)
+plot(sk)
+print(mean(sk[,3]))
+# ------------------------------------------------------------------
+# clustering usando de 2 a 10 clusters
+# ------------------------------------------------------------------
+ 
+resultados <- rep(0, 10)
+for (i in c(2,3,4,5,6,7,8,9,10))
+{
+  fit         <- kmeans(x, i)
+  y_cluster   <- fit$cluster
+  d           <- daisy(x) 
+  sk          <- silhouette(y_cluster, d)
+  resultados[i] <- mean(sk[,3])
+}
+
+plot(2:10,resultados[2:10],type="o",col="blue",pch=0,xlab="Númbero de clusters",ylab="Silueta")
+
+# esta línea es alternativa a todo el proceso anterior
+fviz_nbclust(x, kmeans, method = "silhouette")
