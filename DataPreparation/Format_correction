@@ -1,0 +1,24 @@
+# ------------------------------------------------------------------
+# we change the decimal separator given a dataframe: my data 
+# and a vector of variables that are wrong: var_wrong
+# ------------------------------------------------------------------
+#Change "," to "."" 
+
+for (i in 1:length(var_wrong)){
+  mydata[,var_wrong[i]] <-  as.numeric( sub(",","\\.",mydata[,var_wrong[i]]) )
+}
+
+kable(summary(mydata[,var_wrong]))
+
+# ------------------------------------------------------------------
+# some useful functions
+# ------------------------------------------------------------------
+
+# eliminates spaces before and after
+trimws() 
+
+# change  str_to_title
+str_to_title()
+
+# change  " And " to " and" and other particular mistakes
+mydata <- gsub(" And "," and ", mydata)
