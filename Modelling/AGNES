@@ -1,0 +1,52 @@
+# ------------------------------------------------------------------
+# AGNES ANALYSIS
+# ------------------------------------------------------------------
+
+# calculamos las estadísticas por minuto
+x <- nba
+for (i in 3:8){
+  x[i]=x[i]/x[2]
+}
+
+# volvemos a normalizar esta vez a una distribucion normal estandar
+x <- x[,3:8]
+x <- as.data.frame(scale(x))
+row.names(x) <- nba$Name
+
+# metodos para agnes
+m <- c( "average", "single", "complete", "ward")
+names(m) <- c( "average", "single", "complete", "ward")
+
+# funcion para calcular coeficientes
+ac <- function(metodo) {
+  agnes(x, method = metodo)$ac
+}
+
+# aplicamos agnes para todos los metodos
+sapply(m, ac)
+
+
+# entrenamos modelo para el metodo que da mejor resultado
+hc <- agnes(x, method = "ward")
+
+pltree(hc, cex = 0.6, hang = -1, main = "Dendrogram of agnes") 
+
+fviz_nbclust(x, FUN = hcut, method = "silhouette")
+
+
+# Cut tree into 4 groups
+sub_grp <- cutree(hc, k = 2)
+
+# Number of members in each cluster
+table(sub_grp)
+
+# calculamos medias del grupo 1
+sapply(x[sub_grp == 1,], mean)
+
+# calculamos medias del grupo 2
+sapply(x[sub_grp == 2,], mean)
+
+plot(hc, cex = 0.6)
+rect.hclust(hc, k = 2, border = 2:5)
+
+fviz_cluster(list(data = x, cluster = sub_grp))
