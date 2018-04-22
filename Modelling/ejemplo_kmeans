@@ -1,0 +1,89 @@
+library(cluster)
+
+# ------------------------------------------
+# Generar datos de prueba
+# ------------------------------------------
+n       <- 150 # numero de muestras
+p       <- 2   # dimension
+
+sigma <- 1          # varianza de la distribucion
+mean1 <- 0          # centro del primer grupo
+mean2 <- 7          # centro del segundo grupo
+n1    <- round(n/2) # numero de muestras del primer grupo
+n2    <- round(n/2) # numero de muestras del segundo grupo
+
+# Generar las muestras de ambos grupos al azar
+x1 <- matrix(rnorm(n1*p,mean=mean1,sd=sigma),n1,p)
+x2 <- matrix(rnorm(n2*p,mean=mean2,sd=sigma),n2,p)
+x    <- rbind(x1,x2)
+
+# Visualizar las muestras
+plot(x)
+
+# ------------------------------------------------------------------
+# clustering usando 2 clusters
+# ------------------------------------------------------------------
+fit       <- kmeans(x, 2)
+y_cluster <- fit$cluster
+
+#visualizar los clusters
+plot(x[y_cluster==1,],col='blue', xlim=c(min(x[,1]), max(x[,1])), ylim=c(min(x[,2]), max(x[,2])))
+points(x[y_cluster==2,],col='red')
+
+# Otra forma de ver los clusters
+clusplot(x, fit$cluster, color=TRUE, shade=TRUE, labels=2, lines=0)
+
+# calculo de la silueta
+d  <- daisy(x) 
+sk <- silhouette(y_cluster, d)
+plot(sk)
+print(mean(sk[,3]))
+
+# ------------------------------------------------------------------
+# clustering usando 8 clusters
+# ------------------------------------------------------------------
+fit       <- kmeans(x, 8)
+y_cluster <- fit$cluster
+
+plot(x[y_cluster==1,],col='blue', xlim=c(min(x[,1]), max(x[,1])), ylim=c(min(x[,2]), max(x[,2])))
+points(x[y_cluster==2,],col='red')
+points(x[y_cluster==3,],col='green')
+points(x[y_cluster==4,],col='black')
+points(x[y_cluster==5,],col='yellow')
+points(x[y_cluster==6,],col='purple')
+points(x[y_cluster==7,],col='cyan')
+points(x[y_cluster==8,],col='orange')
+
+clusplot(x, fit$cluster, color=TRUE, shade=TRUE, labels=2, lines=0)
+
+d <- daisy(x) 
+sk <- silhouette(y_cluster, d)
+plot(sk)
+print(mean(sk[,3]))
+
+#De acuerdo con la silueta, dos clusters es preferible a 8. Lo cual es logico teniendo en cuenta como se han generado los datos.
+
+# ------------------------------------------------------------------
+# clustering de los datos de iris
+# ------------------------------------------------------------------
+# Vamos a agrupar usando varias k de 2 a 10, y veremos cual es mejor
+iris_data <- read.csv("iris.csv", header=FALSE)
+
+# ATENCION: la base de dtos IRIS incluye en la ultima columna el tipo de planta. Es una base de datos para problemas supervisados.
+# Para que tenga sentido lo que se va a realizar hay que eliminar la ultima columna, es decir como si no se conociera el
+# tipo de planta a priori. De esta forma sera un problema no supervisado.
+x <- iris_data[,1:4]
+
+resultados <- rep(0, 10)
+for (i in c(2,3,4,5,6,7,8,9,10))
+{
+  fit         <- kmeans(x, i)
+  y_cluster   <- fit$cluster
+  d           <- daisy(x) 
+  sk          <- silhouette(y_cluster, d)
+  resultados[i] <- mean(sk[,3])
+}
+
+plot(2:10,resultados[2:10],type="o",col="blue",pch=0,xlab="Númbero de clusters",ylab="Silueta")
+# Como se puede comprobar, 2 clusters parece ser la mejor agrupación, que NO coincide con las etiquetas originales (que son 3 tipos).
+# Este ejemplo demuestra que una cosa son los problemas supervisados y otra los no supervisados.
