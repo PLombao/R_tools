@@ -1,0 +1,7 @@
+# kNN Imputation , Gower distance
+# 6 last variables
+k <- 6
+mydata.completo <- kNN(mydata[,(length(n.var)-k+1):length(n.var)], variable=colnames(mydata)[v.p.p])
+
+# Imputación
+mydata[v.p.p.v,v.p.p] <- mydata.completo[v.p.p.v,1]
