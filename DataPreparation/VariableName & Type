@@ -1,0 +1,37 @@
+# ------------------------------------------------------------------
+# We change the names with various words separeted for a "." to
+# names with the first letter of each word
+# ------------------------------------------------------------------
+
+# names with .
+var_w.punt <- str_detect(n.var, "\\.")
+# first word previous point
+word_1 <- word(n.var[var_w.punt],1,sep=fixed('.'))
+# substr de first letter
+letter_1 <- substr(word_1,1,1)
+# Second word previous point
+word_2 <-word(n.var[var_w.punt],2,sep=fixed('.'))
+letter_2 <- substr(word_2,1,1)
+# Third  word previous point
+word_3 <-word(n.var[var_w.punt],3,sep=fixed('.'))
+letter_3 <- str_replace_na(substr(word_3,1,1),"")
+
+
+names(mydata)[var_w.punt] <- str_c(letter_1,letter_2,letter_3)
+
+n.var <- names(mydata)
+
+# ------------------------------------------------------------------
+# Correct asignation of data type for the variables
+# ------------------------------------------------------------------
+
+# factor
+var.factor <- 1:2
+var.integer <- 3
+var.numeric <- 4:13
+var.tipus <- vector(mode="character",length=ncol(mydata))
+var.tipus[var.factor] <- "factor"
+var.tipus[var.integer] <- "integer"
+var.tipus[var.numeric] <- "numeric"
+
+var_wrong <- n.var[res != var.tipus]
