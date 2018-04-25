@@ -25,3 +25,27 @@ is_man <-  grepl(", Mr\\.", pass_names)
 
 # change  " And " to " and" and other particular mistakes
 mydata <- gsub(" And "," and ", mydata)
+
+# ------------------------------------------------------------------
+# advanced gsub & vapply example
+# ------------------------------------------------------------------
+
+pass_names <- titanic$names
+
+convert_name <- function(name) {
+  # women: take name from inside parentheses
+  if (grepl("\\(.*?\\)", name)) {
+    gsub("^.*?\\((.*?)\\)$", "\\1", name)
+  # men: take name before comma and after title
+  } else {
+    # Finish the gsub() function
+    gsub("^(.*?),\\s[a-zA-Z\\.]*?\\s(.*?)$", "\\2 \\1", name)
+  }
+}
+
+# Call convert_name on name
+clean_pass_names <- vapply(pass_names, FUN = convert_name,
+                           FUN.VALUE = character(1), USE.NAMES = FALSE)
+
+# Print out clean_pass_names
+print(clean_pass_names)
