@@ -20,5 +20,8 @@ trimws()
 # change  str_to_title
 str_to_title()
 
+# identify rows with some pattern in a vector
+is_man <-  grepl(", Mr\\.", pass_names)
+
 # change  " And " to " and" and other particular mistakes
 mydata <- gsub(" And "," and ", mydata)
