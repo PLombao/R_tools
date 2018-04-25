@@ -1,0 +1,23 @@
+# ------------------------------------------------------------------
+# plain text files
+# ------------------------------------------------------------------
+
+# csv files
+mydata <- read.csv("data.csv", strinsAsFactors = TRUE)
+
+# txt tab delimited file
+mydata <- read.delim("data.txt", header = FALSE)
+
+# all plain text files
+mydata <- read.table("mydata.csv", 
+                      sep = ",",
+                      header = FALSE)
+
+# with no headers and tab separator
+mydata <- read.table("mydata.txt", 
+                      sep = "/t",
+                      col.name = c("col1", "col2", "col3"),
+                      # we can chose the classes and even skip some columns with NULL
+                      col.classes = c("character", "numerical", "NULL"))  
+                      
+                     
