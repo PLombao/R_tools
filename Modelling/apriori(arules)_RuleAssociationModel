@@ -1,0 +1,105 @@
+library(arules)
+library(arulesViz)
+
+# dataframe with data
+mydata <- 
+
+# ------------------------------------------------------------------
+# Preparación de los datos
+#
+# Los datos tienen que estar en una lista de items para cada cliente/usuario
+# si tenemos las transacciones (user/item) tenemos que usar split y lapply
+# si tenemos los datos en listas por usuario solo hay que usar as
+# ------------------------------------------------------------------
+
+# creamos una lista para cada usuario/cliente los items que tiene
+mydata <- split(mydata$item, mydata$user)
+
+# eliminamos duplicados para cada elemento de la lista
+mydata <- lapply(mydata, unique)
+
+# binarizamos
+mydata <- as(mydata, "transactions")
+
+# echamos un ojo
+inspect(head(mydata))
+
+# items más frecuentes
+itemFrequency(mydata, type = "relative")
+itemFrequencyPlot(mydata,topN = 50)
+
+# ------------------------------------------------------------------
+# Entrenamiento del modelo
+# ------------------------------------------------------------------
+
+# crear las reglas
+rules = apriori(mydata, parameter=list(support=0.005, confidence=0.7))
+
+# informacion summay
+summary(rules)
+
+# mostrar las 5 reglas más importantes con 2 digitos
+options(digits=2)
+inspect(rules[1:5])
+
+# mostrar reglas de un item en particular
+inspect(subset(rules, subset = rhs %pin% "item1"))
+
+# ------------------------------------------------------------------
+# Depurar el modelo
+# ------------------------------------------------------------------
+
+# ordenar por lift (o confidence o support)
+rules<-sort(rules, by="lift", decreasing=TRUE)
+
+# eliminar reglas innecesarias (redundancias)
+subset.matrix <- is.subset(rules, rules)
+subset.matrix[lower.tri(subset.matrix, diag=T)] <- NA
+redundant <- colSums(subset.matrix, na.rm=T) >= 1
+rules.pruned <- rules[!redundant]
+rules<-rules.pruned
+
+# ------------------------------------------------------------------
+# Visualizar el modelo
+# ------------------------------------------------------------------
+
+
+
+
+
+
+# ------------------------------------------------------------------
+# Entrenamiento del modelo con max/min longitud de reglas
+# ------------------------------------------------------------------
+
+# crear las reglas con un minimo de longitud
+rules = apriori(mydata, parameter=list(support=0.005, confidence=0.7, minlen = 3))
+
+rules<-sort(rules, decreasing=TRUE,by="confidence")
+inspect(rules[1:5])
+
+# crear las reglas con un maximo de longitud
+rules = apriori(mydata, parameter=list(support=0.005, confidence=0.7, maxlen = 4))
+
+rules<-sort(rules, decreasing=TRUE,by="confidence")
+inspect(rules[1:5])
+
+
+# ------------------------------------------------------------------
+# Entrenamiento del modelo con Y (tal que X -> Y) fijado
+# ------------------------------------------------------------------
+rules<-apriori(data=mydata, parameter=list(supp=0.001,conf = 0.8), 
+               appearance = list(default="lhs",rhs="radiohead"),
+               control = list(verbose=F))
+
+rules<-sort(rules, decreasing=TRUE,by="confidence")
+inspect(rules[1:5])
+
+# ------------------------------------------------------------------
+# Entrenamiento del modelo con X (tal que X -> Y) fijado
+# ------------------------------------------------------------------
+rules<-apriori(data=mydata, parameter=list(supp=0.001,conf = 0.1), 
+               appearance = list(default="rhs",lhs="radiohead"),
+               control = list(verbose=F))
+rules<-sort(rules, decreasing=TRUE,by="confidence")
+inspect(rules[1:5])
