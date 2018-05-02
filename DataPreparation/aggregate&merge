@@ -1,0 +1,8 @@
+# medias de puntuación por pelicula
+means <- aggregate(movies[,"rating"], list(movies$name), mean)
+
+# puntuaciones por pelicula
+sums <- aggregate(movies[,"rating"], list(movies$name), length)
+
+# dataframe con medias y número de puntuaciones por películas
+f <- merge(means, sums, by= "Group.1")
