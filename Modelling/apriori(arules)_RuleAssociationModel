@@ -63,9 +63,10 @@ rules<-rules.pruned
 # Visualizar el modelo
 # ------------------------------------------------------------------
 
-
-
-
+plot(head(sort(rules, by = "lift"), n=50), method = "graph", control=list(cex=.8))
+plot(rules)
+subrules <- head(rules, n=10, by="lift")
+plot(subrules,method="paracoord")
 
 
 # ------------------------------------------------------------------
