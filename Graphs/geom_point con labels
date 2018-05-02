@@ -1,0 +1,5 @@
+ggplot(f, aes(x = x.y, y = x.x)) + 
+  geom_point()+
+  geom_label(label = f$Group.1)+
+  xlab("Número de veces puntuada la película") + 
+  ylab("Nota media sobre 5 de la película")
