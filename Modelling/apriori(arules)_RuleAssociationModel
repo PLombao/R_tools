@@ -63,10 +63,14 @@ rules<-rules.pruned
 # Visualizar el modelo
 # ------------------------------------------------------------------
 
+# scatter plot
+plot(rules, measure=c("support","lift"), shading = "confidence")
+# graph plot
 plot(head(sort(rules, by = "lift"), n=50), method = "graph", control=list(cex=.8))
-plot(rules)
-subrules <- head(rules, n=10, by="lift")
-plot(subrules,method="paracoord")
+# paracoord plot
+plot(head(sort(rules, by = "lift"), n=50), method = "paracoord")
+# grouped
+plot(rules, method = "grouped", control = list(k = 50))
 
 
 # ------------------------------------------------------------------
