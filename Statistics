@@ -96,3 +96,19 @@ my_estad4 <- function(x, name="", naremove = FALSE){
                         paste(name, "Sin outliers"))
   return(round(estad,4))
 }
+
+#----------------------------------------------------------------------------------
+# PARA VARIAS VARIABLES
+#----------------------------------------------------------------------------------
+# más que summary vamos a obtener un dataframe con media, mediana, RIC,
+# quartiles 0.25, 0.5, 0.75, 1, min, max, sd
+# definimos función con nuestras variables estadísticas
+estad <- function(x) {
+est <- cbind(mean(x), median(x), sd(x),t(quantile(x)))
+return(round(est,4))
+}
+# aplicamos la función de resumen a nuestras variables numéricas
+sum_estad <- apply(mydata[,var_num], 2, estad)
+# le cambiamos nombres a las columnas
+rownames(sum_estad) <- c("Media", "Mediana", "Desv.Est.", "Min.",
+"Q1", "Q2", "Q3", "Max.")
