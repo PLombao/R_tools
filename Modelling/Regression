@@ -11,3 +11,27 @@ residuals(fit) # residuals
 anova(fit) # anova table
 vcov(fit) # covariance matrix for model parameters
 influence(fit) # regression diagnostics 
+
+# ------------------------------------------------------------------
+# Paralell Slopes - Categorical & Numerical Data Regression
+# ------------------------------------------------------------------
+# fit parallel slopes
+lm(totalPr ~ wheels + cond, data = mario_kart)
+
+# Augment the model
+augmented_mod <- broom::augment(mod)
+glimpse(augmented_mod)
+
+# scatterplot, with color
+data_space <- ggplot(augmented_mod, aes(x = wheels , y = totalPr, color = cond)) + 
+  geom_point()
+  
+# single call to geom_line()
+data_space + 
+  geom_line(aes(y = .fitted))
+  
+# return a vector
+predict(mod)
+
+# return a data frame
+broom::augment(mod)
