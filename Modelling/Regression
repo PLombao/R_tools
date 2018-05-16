@@ -69,3 +69,30 @@ p <- plot_ly(data = mario_kart, z = ~ totalPr, x = ~ duration, y = ~ startPr, op
 # draw the plane
 p %>%
 add_surface(x = ~x, y = ~y, z = ~plane, showscale = FALSE)
+
+# ------------------------------------------------------------------
+# GLM
+# ------------------------------------------------------------------
+
+# fit model
+glm(Acceptance ~ GPA, data = MedGPA, family = binomial)
+
+data_space + 
+  geom_smooth(method = "lm", se = 0) + 
+  geom_smooth(method = "glm", se = 0, color = "red", 
+              method.args = list(family = "binomial"))
+              
+              
+
+DataCamp Multiple and Logistic Regression
+Using geom_smooth()
+
+data_space + 
+  geom_smooth(method = "lm", se = 0) + 
+  geom_smooth(method = "glm", se = 0, color = "red", 
+              method.args = list(family = "binomial"))
+
+data_binned_space + 
+  geom_line(data = augment(mod, type.predict = "response"), 
+            aes(y = .fitted), color = "blue")
+
