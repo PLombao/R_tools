@@ -1,0 +1,6 @@
+ggplot(df, aes(x = PredictedValue, y = ActualValue, shape=RealYes, color = PredictedYes))+
+  geom_point() +
+  geom_hline(yintercept = ActualYesLimit, linetype = "dashed",
+             color = "darkred") +
+  geom_vline(xintercept = PredictedYesLimit, linetype = "dashed",
+             color = "darkred") 
