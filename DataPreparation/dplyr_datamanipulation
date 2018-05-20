@@ -1,7 +1,3 @@
-# ------------------------------------------------------------------
-# DATA MANIPULATION WITH dplyr PACKAGE
-# ------------------------------------------------------------------
-
 # Load the dplyr package
 library(dplyr)
 
@@ -32,12 +28,8 @@ hflights$Code <- lut[hflights$CancellationCode]
 glimpse(hflights)
 
 # ------------------------------------------------------------------
-# FIVE VERBS FOR MANIPULATING
+# FIVE VERBS FOR MANIPULATING : SELECT
 # select(df, col1, col2) for selecting columns
-# mutate(df, ) for modify columns
-# filter() for filter rows
-# arrange for sorting rows
-# summarize to get some info of the group of rows
 # ------------------------------------------------------------------
 
 # Print out a tbl with the four columns of hflights related to delay
@@ -46,5 +38,71 @@ print(select(hflights, ActualElapsedTime, AirTime, ArrDelay, DepDelay))
 # Print out the columns Origin up to Cancelled of hflights
 print(select(hflights, Origin:Cancelled))
 
+# print columns 1 to 5 except 3
+select(hflights, 1:5, -3))
+
+
 # Print out all the columns except 5 to 11, both included
 print(select(hflights, -(5:11)))
+
+"
+dplyr comes with a set of helper functions that can help you select groups of variables inside a select() call:
+  
+starts_with("X"): every name that starts with "X",
+ends_with("X"): every name that ends with "X",
+contains("X"): every name that contains "X",
+matches("X"): every name that matches "X", where "X" can be a regular expression,
+num_range("x", 1:5): the variables named x01, x02, x03, x04 and x05,
+"
+
+# Print out a tbl containing just ArrDelay and DepDelay
+select(hflights, ends_with("Delay"))
+
+# Print out a tbl as described in the second instruction, using both helper functions and variable names
+select(hflights, UniqueCarrier, starts_with("Cancell"),
+             ends_with("Num"))
+
+# ------------------------------------------------------------------
+# FIVE VERBS FOR MANIPULATING : mutate
+# mutate(df, newcol = col1 + col2 ) for modify columns
+# ------------------------------------------------------------------
+# Add a second variable loss_ratio to the dataset: m1
+m1 <- mutate(hflights, loss = ArrDelay - DepDelay,
+             loss_ratio = loss/DepDelay)
+
+
+# ------------------------------------------------------------------
+# FIVE VERBS FOR MANIPULATING : filter
+# filter(df, logical_test) for filter rows
+# ------------------------------------------------------------------
+# All flights that traveled 3000 miles or more
+filter(hflights, Distance >= 3000)
+
+# All flights flown by one of JetBlue, Southwest, or Delta
+filter(hflights, UniqueCarrier %in% 
+               c("JetBlue", "Southwest", "Delta"))
+
+# All flights where taxiing took longer than flying
+filter(hflights, TaxiIn + TaxiOut > AirTime)
+
+# All flights that departed before 5am or arrived after 10pm
+filter(hflights, DepTime < 500 | ArrTime > 2200)
+
+
+
+# ------------------------------------------------------------------
+# FIVE VERBS FOR MANIPULATING : arrange
+# arrange(df, column) for sorting rows
+# ------------------------------------------------------------------
+
+# Arrange according to carrier and decreasing departure delays
+arrange(hflights, UniqueCarrier, desc(DepDelay))
+
+# Arrange flights by total delay (normal order).
+arrange(hflights, DepDelay + ArrDelay)
+
+# ------------------------------------------------------------------
+# FIVE VERBS FOR MANIPULATING : summarise
+# summarise(df, expresions) to get some info of the group of rows
+# ------------------------------------------------------------------
+
