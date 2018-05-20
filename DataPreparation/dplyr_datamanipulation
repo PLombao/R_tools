@@ -1,0 +1,50 @@
+# ------------------------------------------------------------------
+# DATA MANIPULATION WITH dplyr PACKAGE
+# ------------------------------------------------------------------
+
+# Load the dplyr package
+library(dplyr)
+
+# Load the hflights package
+library(hflights)
+
+# Call both head() and summary() on hflights
+head(hflights)
+summary(hflights)
+
+# Convert the hflights data.frame into a hflights tbl
+hflights <- tbl_df(hflights)
+
+# Display the hflights tbl
+hflights
+
+# ------------------------------------------------------------------
+# Adding a explanatory variable of another variable
+# ------------------------------------------------------------------
+
+# The lookup table
+lut <- c("A" = "carrier", "B" = "weather", "C" = "FFA", "D" = "security", "E" = "not cancelled")
+
+# Add the Code column
+hflights$Code <- lut[hflights$CancellationCode]
+
+# Glimpse at hflights
+glimpse(hflights)
+
+# ------------------------------------------------------------------
+# FIVE VERBS FOR MANIPULATING
+# select(df, col1, col2) for selecting columns
+# mutate(df, ) for modify columns
+# filter() for filter rows
+# arrange for sorting rows
+# summarize to get some info of the group of rows
+# ------------------------------------------------------------------
+
+# Print out a tbl with the four columns of hflights related to delay
+print(select(hflights, ActualElapsedTime, AirTime, ArrDelay, DepDelay))
+
+# Print out the columns Origin up to Cancelled of hflights
+print(select(hflights, Origin:Cancelled))
+
+# Print out all the columns except 5 to 11, both included
+print(select(hflights, -(5:11)))
