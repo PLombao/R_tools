@@ -88,7 +88,8 @@ filter(hflights, TaxiIn + TaxiOut > AirTime)
 # All flights that departed before 5am or arrived after 10pm
 filter(hflights, DepTime < 500 | ArrTime > 2200)
 
-
+# Remove rows that have NA ArrDelay: temp1
+temp1 <- filter(hflights, ! is.na(ArrDelay))
 
 # ------------------------------------------------------------------
 # FIVE VERBS FOR MANIPULATING : arrange
@@ -106,3 +107,30 @@ arrange(hflights, DepDelay + ArrDelay)
 # summarise(df, expresions) to get some info of the group of rows
 # ------------------------------------------------------------------
 
+# Print out a summary with variables min_dist and max_dist
+summarise(hflights, min_dist = min(Distance),
+                    max_dist = max(Distance))
+
+# Print out a summary with variable max_div
+summarise(filter(hflights, Diverted == 1), max_div = max(Distance))
+
+
+# ------------------------------------------------------------------
+# dplyr aggregate functions
+# ------------------------------------------------------------------
+"
+    
+    first(x) - The first element of vector x.
+    last(x) - The last element of vector x.
+    nth(x, n) - The nth element of vector x.
+    n() - The number of rows in the data.frame or group of observations that summarise() describes.
+    n_distinct(x) - The number of unique values in vector x.
+
+"
+
+# Generate summarizing statistics for hflights
+summarise(hflights, 
+          n_obs = n(), 
+          n_carrier = n_distinct(UniqueCarrier), 
+          n_canc = sum(Cancelled == 1),
+          avg_delay = mean(ArrDelay, na.rm = TRUE))
