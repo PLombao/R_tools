@@ -1,0 +1,41 @@
+layout(matrix(c(1,2,3,4), 2, 2, byrow = TRUE))
+
+x <- clientes$SEXO
+# pie chart de SEXO
+lbls=paste(levels(x), round(prop.table(table(x))*100,2), c("%","%"))
+pie(prop.table(table(x)), 
+    main= "Sexo del cliente",
+    radius = 1.4, 
+    labels = lbls, 
+    border="black", 
+    col=c("orange","light blue","purple"))
+
+# pie chart de PROFESION
+x <- clientes$PROFESION
+lbls=paste(levels(x), round(prop.table(table(x))*100,2), c("%","%"))
+pie(prop.table(table(x)), 
+    main= "Profesión del cliente",
+    radius = 1.4, 
+    labels = lbls, 
+    border="black",
+    col = rainbow(length(levels(x))))
+
+# pie chart de PROFESION
+x = as.factor(as.character(clientes$ESTCIVIL[clientes$ESTCIVIL != ""]))
+lbls=paste(levels(x), round(prop.table(table(x))*100,2), c("%","%"))
+pie(prop.table(table(x)), 
+    main= "Estado civil del cliente",
+    radius = 1.4, 
+    labels = lbls, 
+    border="black",
+    col = rainbow(length(levels(x))))
+
+# pie chart de PROFESION
+x = clientes$REGION
+lbls=paste(levels(x), round(prop.table(table(x))*100,2), c("%","%"))
+pie(prop.table(table(x)), 
+    main= "Región del cliente",
+    radius = 1.4, 
+    labels = lbls, 
+    border="black",
+    col = rainbow(length(levels(x))))
