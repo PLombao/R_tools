@@ -1,0 +1,54 @@
+# ------------------------------------------------------------------
+# CLUSTERING DEMOGRÁFICO PAM kMEDOIDS
+# ------------------------------------------------------------------
+x <- clientes %>%
+  filter(REGION == "Sur Europa") %>%
+  select(SEXO, ESTCIVIL, NUMHIJOS, EDAD)
+
+rownames(x) <- clientes$CODCLIENTE
+
+gower_dist <- cluster::daisy(x, metric = "gower")
+
+sil_width <- c(NA)
+
+for(i in 2:10){
+  
+  pam_fit <- pam(gower_dist,
+                 diss = TRUE,
+                 k = i)
+  
+  sil_width[i] <- pam_fit$silinfo$avg.width
+  
+}
+
+# Plot sihouette width (higher is better)
+
+plot(1:10, sil_width,
+     xlab = "Number of clusters",
+     ylab = "Silhouette Width")
+lines(1:10, sil_width)
+
+
+pam_fit <- pam(gower_dist,
+               diss = TRUE,
+               k = 6)
+
+pam_results <- clientes %>%
+  dplyr::filter(REGION == "Sur Europa") %>%
+  mutate(cluster = pam_fit$clustering) %>%
+  group_by(cluster) %>%
+  do(the_summary = summary(.))
+
+pam_results$the_summary
+
+write.csv(pam_results$the_summary, "results.csv")
+
+tsne_obj <- Rtsne(gower_dist, is_distance = TRUE)
+
+tsne_data <- tsne_obj$Y %>%
+  data.frame() %>%
+  setNames(c("X", "Y")) %>%
+  mutate(cluster = factor(pam_fit$clustering))
+
+ggplot(aes(x = X, y = Y), data = tsne_data) +
+  geom_point(aes(color = cluster))
