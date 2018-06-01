@@ -4,7 +4,7 @@
 
 
 ```{r tab1}
-
+kable(resumen, caption = "Resumen de la variación de AE con Tipo.")
 ```
 
 
@@ -13,3 +13,4 @@ En la figura \ref{fig:fig2}
 ```{r fig1, fig.cap="\\label{fig:fig1}Matriz de correlaciones."}
 
 ```
+\pagebreak
