@@ -1,0 +1,7 @@
+ggplot(resumen2, aes(x = reorder(Tipo, media), y = media, col = Sex, group = Sex)) +
+  geom_point() +
+  geom_line(linetype = 2) +
+  geom_hline(yintercept= mean(mydata2$AE), linetype="dashed", color = "red") +
+  geom_text(aes(0.8, mean(mydata2$AE),label = "Media total", vjust = 0)) +
+  xlab("Tipo de fumador") + 
+  ylab("AE medio")
