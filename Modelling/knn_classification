@@ -1,0 +1,41 @@
+library(caret)
+# Creamos 5 divisiones iguales
+folds <- cut(seq(1,nrow(mydata)),breaks=5,labels=FALSE) 
+
+# inicializamos la matriz accuracy para monitorizar el rendimiento
+accuracy <- as.data.frame(0)
+
+# iteramos sobre las divisiones
+for(i in 1:5){
+  # segmentamos los datos por división
+  tindex <- which(folds==i,arr.ind=TRUE)
+  train <- mydata[-tindex,]   
+  test  <- mydata[tindex,]
+  # iteramos sobre los modelos
+  for (j in 1:3){
+    # train our knn model
+    model <- knn3(Class ~ ., data = train, k = (2*j+1))
+    # calculamos los valores predicted
+    ytest_pred <- predict(model, test, type = "class")
+    # calculamos la matriz de confusion
+    confMat <- confusionMatrix(table(predicted = ytest_pred,
+                                     actual = test$Class))
+    # calculamos accuracy
+    accuracy[i, j] <- confMat$overall["Accuracy"]                           
+  }
+}
+
+# le cambiamos el nombre a las columnas
+colnames(accuracy) <- c("3", "5", "7")
+
+# transformamos el dataframe
+acc <- reshape2::melt(accuracy)
+
+# # le cambiamos el nombre a las columnas
+colnames(acc) <- c("k", "Accuracy")
+
+# creamos un resumen
+resumen3 <- acc %>%
+          group_by(k) %>%
+          summarise(n = n(),
+                    media = mean(Accuracy))
