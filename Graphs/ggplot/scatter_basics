@@ -1,0 +1,42 @@
+"""
+scatter plot with log scale
+"""
+
+ggplot(gapminder_1952, aes(x = pop, y = lifeExp)) +
+  geom_point() +
+  scale_x_log10() +
+  scale_y_log10()
+  
+"""
+scatter plot with colour and size
+"""
+
+# Scatter plot comparing pop and lifeExp, with color representing continent
+ggplot(gapminder_1952, 
+        aes(x = pop, 
+        y = lifeExp,
+        col = continent,
+        size = gdpPercap)) +
+  geom_point() +
+  scale_x_log10()
+  
+"""
+Faceting: divide the data in subplots 
+with a categorical data as a reference
+
+"""
+# Scatter plot comparing pop and lifeExp, faceted by continent
+ggplot(gapminder_1952, aes(x = pop, y = lifeExp)) +
+  geom_point() +
+  scale_x_log10() +
+  facet_wrap(~ continent)
+  
+# Scatter plot comparing gdpPercap and lifeExp, with color representing continent
+# and size representing population, faceted by year
+ggplot(gapminder, aes(x = gdpPercap,
+                      y = lifeExp,
+                      col = continent,
+                      size = pop)) +
+  geom_point() +
+  scale_x_log10() +
+  facet_wrap(~ year)
