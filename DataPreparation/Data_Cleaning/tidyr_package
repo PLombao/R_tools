@@ -1,0 +1,23 @@
+"""
+gather(data, key, value) from wide to long
+spread(data, key, value) from long to wide
+
+separate(data, col, into, sep ="") to separate a column
+unite(data, col, coltojoin1, coltojoin2, sep="_") to join columns
+"""
+
+# Apply gather() to bmi and save the result as bmi_long, we exclude country column
+bmi_long <- gather(bmi, year, bmi_val, -Country)
+
+# Apply spread() to bmi_long
+bmi_wide <- spread(bmi_long, year, bmi_val)
+
+# Apply separate() to bmi_cc
+bmi_cc_clean <- separate(bmi_cc, 
+                         col = Country_ISO, 
+                         into = c("Country", "ISO"), 
+                         sep = "/")
+
+# Apply unite() to bmi_cc_clean
+bmi_cc <- unite(bmi_cc_clean, 
+                Country_ISO, Country, ISO, sep = "-")
