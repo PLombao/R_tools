@@ -1,0 +1,13 @@
+# Iterate over the columns of a df
+for (i in seq_along(df)) {
+  print(median(df[[i]]))
+}
+
+# Create new double vector: output
+output <- vector("double", ncol(df))
+
+# Alter the loop
+for (i in seq_along(df)) {
+  # Change code to store result in output
+  output[[i]] = median(df[[i]])
+}
