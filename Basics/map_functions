@@ -1,0 +1,46 @@
+library(purrr)
+
+# map returns a list
+map( vector, function)
+
+# map_dbl returns a double
+map_dbl()
+
+# returns a integer
+map_int()
+
+# Find the columns that are numeric
+map_lgl(df3, is.numeric)
+
+# Find the type of each column
+map_chr(df3, typeof)
+
+# Find a summary of each column
+map(df3, summary)
+
+# Shortcut for a function: a formula
+map_dbl(df, ~mean(x)*5)
+
+# Rewrite to use the formula shortcut instead
+map(cyl, function(df) lm(mpg ~ wt, data = df))
+map(cyl,~lm(mpg ~ wt, data = .))
+
+# Use map and coef to get the coefficients for each model: coefs
+coefs <- map(models, coef)
+
+## WE CAN ACCEED A ELEMENT OF EACH ELEMENT LIKE THIS
+# Use string shortcut to extract the wt coefficient 
+map_dbl(coefs, 'wt')
+map_dbl(coefs, 2)
+
+## OR WE CAN USE PIPES
+
+# Define models (don't change)
+models <- mtcars %>% 
+  split(mtcars$cyl) %>%
+  map(~ lm(mpg ~ wt, data = .))
+
+# Rewrite to be a single command using pipes
+models %>%
+  map(summary) %>%
+  map_dbl("r.squared")
