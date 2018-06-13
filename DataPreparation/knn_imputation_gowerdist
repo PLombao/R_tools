@@ -5,3 +5,19 @@ mydata.completo <- kNN(mydata[,(length(n.var)-k+1):length(n.var)], variable=coln
 
 # Imputación
 mydata[v.p.p.v,v.p.p] <- mydata.completo[v.p.p.v,1]
+
+
+
+"""
+Replace missings
+basic function)
+"""
+
+
+# Rename the function f() to replace_missings()
+replace_missings <- function(x, replacement) {
+  # Change the name of the y argument to replacement
+  x[is.na(x)] <- replacement
+  cat(sum(is.na(x)), replacement, "\n")
+  x
+}
