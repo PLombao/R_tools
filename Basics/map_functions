@@ -44,3 +44,57 @@ models <- mtcars %>%
 models %>%
   map(summary) %>%
   map_dbl("r.squared")
+
+# --------------------------------------------------------------------
+# MULTIPLE ARGUMENTS
+
+# map2() - iterate over two arguments
+# pmap() - iterate over many arguments
+# invoke_map() - iterative over functions and arguments
+# --------------------------------------------------------------------
+
+# Create a list n containing the values: 5, 10, and 20
+n <- list(5, 10, 20)
+
+# Call map() on n with rnorm() to simulate three samples
+map(n, rnorm)
+
+# Create a list mu containing the values: 1, 5, and 10
+mu <- list(1, 5, 10)
+
+# Edit to call map2() on n and mu with rnorm() to simulate three samples
+map2(n, mu, rnorm)
+
+# Create a sd list with the values: 0.1, 1 and 0.1
+sd <- list(0.1, 1, 0.1)
+
+# Edit this call to pmap() to iterate over the sd list as well
+pmap(list(n, mu, sd), rnorm)
+
+# Name the elements of the argument list
+pmap(list(mean = mu, n = n, sd = sd), rnorm)
+
+# --------------------------------------------------------------------
+# INVOKE MAP
+# --------------------------------------------------------------------
+# Define list of functions
+f <- list("rnorm", "runif", "rexp")
+
+# Parameter list for rnorm()
+rnorm_params <- list(mean = 10)
+
+# Add a min element with value 0 and max element with value 5
+runif_params <- list(min = 0, max = 5)
+
+# Add a rate element with value 5
+rexp_params <- list(rate = 5)
+
+# Define params for each function
+params <- list(
+  rnorm_params,
+  runif_params,
+  rexp_params
+)
+
+# Call invoke_map() on f supplying params as the second argument
+invoke_map(f, params, n=5)
