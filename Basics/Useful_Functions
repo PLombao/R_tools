@@ -2,44 +2,9 @@ x <- list(a = 1, b = 2, c = 3)
 # this functions select the "a" column of the list x just as x[["a"]] does
 `[[`(x, "a")
 
-#---------------------------------------------------------------------------------------------------------------------
-APPLY FAMILY
-
-# APPLY FAMILY
-
-vector = c(1,2,3,4,-5)
-f <- function(x, return = FALSE){
-  if (return){
-    2*x
-  }
-}
-# apply a function over each element of a list of vector with LAPPLY, it returns a list
-unlist(lapply(vector, f, return = NULL)) # we use unlist to have a vector
-
-# Use anonymous function inside lapply()
-lapply(vector, function(x) { 3 * x })
-
-# this select the element 2 of a list x
-lapply(x, `[[`, 2)
-
-# do the same as lapply but with better visualziation: try to simplify list to array
-#sapply returns a vector or matrix (or a list when simplification can be reached)
-# with column and row names if there exist
-sapply(vector, max)
-
-# with vapply you can choose the output format
-# Definition of basics()
-basics <- function(x) {
-  c(min = min(x), mean = mean(x), max = max(x))
-}
-
-# Apply basics() over temp using vapply(): we choose a numeric vector of length 3
-vapply(temp, basics, numeric(3))
-
 #------------------------------------------------------------------------------------------------------------------
 
-"
-R features a bunch of functions to juggle around with data structures::
+#R features a bunch of functions to juggle around with data structures::
   
 seq(): Generate sequences, by specifying the from, to, and by arguments.
 rep(): Replicate elements of vectors and lists.
@@ -53,69 +18,16 @@ unlist(): Flatten (possibly embedded) lists to produce a vector.
 "
 
 #------------------------------------------------------------------------------------------------------------------
-#REGULAR EXPRESSIONS
-
-# regular expressions
-
-# grepl search a pattern in a character vector returning a logical vector
-grepl(pattern="edu", emails)
-
-# grep return the indices of the TRUES of grepl
-grep(pattern = "@.*\\.edu$", emails)
-
-# sub search for a pattern and replaces it when first is found (and no more for element)
-sub(".*\\s([0-9]+)\\snomination.*$", "\\1", awards)
-
-# gsub replaces all the patterns in each elements
-
-"
-pattern:
-last character a$
-first ch: ^a
-more than one character: a | i | o
-.*: A usual suspect! It can be read as 'any character that is matched zero or more times'.
-\\s: Match a space. The "s" is normally a character, escaping it (\\) makes it a metacharacter.
-[0-9]+: Match the numbers 0 to 9, at least once (+).
-([0-9]+): The parentheses are used to make parts of the matching string available to define the replacement. The \\1 in the replacement argument of sub() gets set to the string that is captured by the regular expression [0-9]+.
-
-"
+# DEALING WITH ERRORS
 #------------------------------------------------------------------------------------------------------------------
 
-# DATES AND TIMES
-# Get the current date: today (Date object)
-today <- Sys.Date()
+# Define safe_readLines()
+safe_readLines <- safely(readLines)
 
-# Get the current time: now (POSIXct object)
-now <- Sys.time()
 
-# string to date or POSIXct
-as.Date("String", format = "%b %d, '%y")
-as.POSIXct(str1, format = "%B %d, '%y hours:%H minutes:%M seconds:%S")
+#------------------------------------------------------------------------------------------------------------------
 
-# dates to string
-format(Sys.Date(), format = "%d %B, %Y")
 
-#full conversion list
-?strptime
-
-"
-%Y: 4-digit year (1982)
-%y: 2-digit year (82)
-%m: 2-digit month (01)
-%d: 2-digit day of the month (13)
-%A: weekday (Wednesday)
-%a: abbreviated weekday (Wed)
-%B: month (January)
-%b: abbreviated month (Jan)
-
-%H: hours as a decimal number (00-23)
-%I: hours as a decimal number (01-12)
-%M: minutes as a decimal number
-%S: seconds as a decimal number
-%T: shorthand notation for the typical format %H:%M:%S
-%p: AM/PM indicator
-
-"
 #------------------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------------------
