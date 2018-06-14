@@ -109,3 +109,15 @@ sims <- invoke_map(f, params, n = 50)
 
 # Use walk() to make a histogram of each element in sims
 walk(sims, hist)
+
+# Replace "Sturges" with reasonable breaks for each sample
+breaks_list <- list(
+  Normal = seq(6, 16, 0.5),
+  Uniform = seq(0, 5, 0.25),
+  Exp = seq(0, 1.5, 0.1)
+)
+
+# Use walk2() to make histograms with the right breaks
+walk2(sims, breaks_list, hist)
+
+
