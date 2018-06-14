@@ -98,3 +98,14 @@ params <- list(
 
 # Call invoke_map() on f supplying params as the second argument
 invoke_map(f, params, n=5)
+
+# --------------------------------------------------------------------
+# WALK()
+# you use walk for function that dont return anything like print, plot or saving
+# --------------------------------------------------------------------
+
+# Assign the simulated samples to sims
+sims <- invoke_map(f, params, n = 50)
+
+# Use walk() to make a histogram of each element in sims
+walk(sims, hist)
