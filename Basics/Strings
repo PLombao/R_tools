@@ -1,0 +1,26 @@
+#REGULAR EXPRESSIONS
+
+# regular expressions
+
+# grepl search a pattern in a character vector returning a logical vector
+grepl(pattern="edu", emails)
+
+# grep return the indices of the TRUES of grepl
+grep(pattern = "@.*\\.edu$", emails)
+
+# sub search for a pattern and replaces it when first is found (and no more for element)
+sub(".*\\s([0-9]+)\\snomination.*$", "\\1", awards)
+
+# gsub replaces all the patterns in each elements
+
+"
+pattern:
+last character a$
+first ch: ^a
+more than one character: a | i | o
+.*: A usual suspect! It can be read as 'any character that is matched zero or more times'.
+\\s: Match a space. The "s" is normally a character, escaping it (\\) makes it a metacharacter.
+[0-9]+: Match the numbers 0 to 9, at least once (+).
+([0-9]+): The parentheses are used to make parts of the matching string available to define the replacement. The \\1 in the replacement argument of sub() gets set to the string that is captured by the regular expression [0-9]+.
+
+"
