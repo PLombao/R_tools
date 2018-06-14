@@ -1,0 +1,17 @@
+GIVEN A BUNCK OF VECTORS in SIMS we represent all the histograms in a way that all of the histograms have 30 bins
+
+
+# Turn this snippet into find_breaks()
+find_breaks <- function(x){
+  rng <- range(x, na.rm = TRUE)
+  seq(rng[1], rng[2], length.out = 30)
+}
+
+# Use map() to iterate find_breaks() over sims: nice_breaks
+nice_breaks <- map(sims, find_breaks)
+
+# Create a vector nice_titles
+nice_titles <- c("Normal(10, 1)", "Uniform(0, 5)", "Exp(5)")
+
+# Use pwalk() instead of walk2()
+pwalk(list(x = sims, breaks = nice_breaks, main = nice_titles), hist, xlab = "")
