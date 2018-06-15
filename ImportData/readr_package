@@ -1,0 +1,40 @@
+# -----------------------------------------------------------------
+# read_csv()
+# read_tsv()
+# read_delim()
+# -----------------------------------------------------------------
+
+# Load the readr package
+library(readr)
+
+# Import potatoes.csv with read_csv(): potatoes
+data <- read_csv("potatoes.csv")
+
+# Column names
+properties <- c("area", "temp", "size", "storage", "method",
+                "texture", "flavor", "moistness")
+
+# Import potatoes.txt: potatoes
+potatoes <- read_tsv("potatoes.txt", col_names = properties)
+
+# Import potatoes.txt using read_delim() with tab as separators
+potatoes <- read_delim("potatoes.txt", delim = "\t", col_names = properties)
+
+# Import 5 observations from potatoes.txt: potatoes_fragment
+potatoes_fragment <- read_tsv("potatoes.txt", skip = 6, n_max = 5, col_names = properties)
+
+# Import all data, but force all columns to be character: potatoes_char
+potatoes_char <- read_tsv("potatoes.txt", col_types = "cccccccc", col_names = properties)
+
+# col_types: character, double, integer and logical. _ skips the column as a whole.
+
+
+# The collectors you will need to import the data
+fac <- col_factor(levels = c("Beef", "Meat", "Poultry"))
+int <- col_integer()
+
+# Edit the col_types argument to import the data correctly: hotdogs_factor
+hotdogs_factor <- read_tsv("hotdogs.txt",
+                           col_names = c("type", "calories", "sodium"),
+                           col_types = list(fac, int, int))
+
