@@ -20,4 +20,19 @@ mydata <- read.table("mydata.txt",
                       # we can chose the classes and even skip some columns with NULL
                       col.classes = c("character", "numerical", "NULL"))  
                       
-                     
+                   
+# ------------------------------------------------------------------
+# fread
+# ------------------------------------------------------------------
+
+# load the data.table package
+library(data.table)
+
+# Import potatoes.csv with fread(): potatoes
+potatoes <- fread("potatoes.csv")
+
+
+fread("path/to/file.txt", drop = 2:4)
+fread("path/to/file.txt", select = c(1, 5))
+fread("path/to/file.txt", drop = c("b", "c", "d")
+fread("path/to/file.txt", select = c("a", "e"))
