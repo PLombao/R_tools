@@ -1,0 +1,40 @@
+library(readxl)
+
+# -----------------------------------------------------------------------------------
+# excel_sheets() : list the sheets
+# read_excel() : import excel data
+# -----------------------------------------------------------------------------------
+
+# Print out the names of both spreadsheets
+excel_sheets("urbanpop.xlsx")
+
+# Read the sheets, one by one
+pop_1 <- read_excel("urbanpop.xlsx", sheet = 1)
+
+# Read all Excel sheets with lapply(): pop_list
+pop_list <- lapply(excel_sheets("urbanpop.xlsx"),
+                      read_excel,
+                      path = "urbanpop.xlsx")
+                      
+# parameters
+read_excel(path, sheet = 1 ,
+            col_names = TRUE,
+            col_types = NULL,
+            skip = 0)
+            
+            
+            
+
+
+
+
+# -----------------------------------------------------------------------------------
+# ALTERNATIVE:
+# gdata::read.xls()
+# -----------------------------------------------------------------------------------
+
+# Load the gdata package
+library(gdata)
+
+# Import the second sheet of urbanpop.xls: urban_pop
+urban_pop <- read.xls("urbanpop.xls", sheet = 2)
