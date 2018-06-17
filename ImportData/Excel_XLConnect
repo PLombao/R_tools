@@ -1,0 +1,39 @@
+library("XLConnect")
+
+#----------------------------------------------------------------
+# loadWorkbook() - this function will build a "bridge" between your Excel file and your R session
+# getSheet() - To list the sheets in an Excel file,
+# readWorksheet() - To actually import data from a sheet
+#----------------------------------------------------------------
+
+# Build connection to urbanpop.xlsx
+my_book <- loadWorkbook("urbanpop.xlsx")
+
+# Import the second sheet in my_book
+readWorksheet(my_book, sheet = 2)
+
+# List the sheets in my_book
+sheets <- getSheets(my_book)
+
+# get all the sheets
+all <- lapply(sheets, readWorksheet, object = my_book)
+
+#----------------------------------------------------------------
+# createSheet()
+# writeWorksheet()
+# saveWorkbook()
+# renameSheet()
+# removeSheet()
+#----------------------------------------------------------------
+
+# Add a worksheet to my_book, named "data_summary"
+createSheet(my_book, name = "data_summary")
+
+# Add data in summ to "data_summary" sheet
+writeWorksheet(my_book, data = mydf, sheet = "data_summary")
+
+# Save workbook as summary.xlsx
+saveWorkbook(my_book, "summary.xlsx")
+
+# Remove the fourth sheet
+removeSheet(my_book, 4)
