@@ -21,3 +21,10 @@ replace_missings <- function(x, replacement) {
   cat(sum(is.na(x)), replacement, "\n")
   x
 }
+
+
+#----------------------------------------------------------------
+# REMOVE ALL NAs
+#----------------------------------------------------------------
+
+urban_clean <- na.omit(urban)
