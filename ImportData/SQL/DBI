@@ -1,0 +1,54 @@
+# Load the DBI package
+library("DBI")
+
+# Edit dbConnect() call
+con <- dbConnect(RMySQL::MySQL(), 
+                 dbname = "tweater", 
+                 host = "courses.csrrinzqubik.us-east-1.rds.amazonaws.com", 
+                 port = 3306,
+                 user = "estudent",
+                 password = "datacamp")
+                 
+
+# list tables
+dbListTables(con)
+
+# import tables
+dbReadTable(con, "employees")
+
+# Import all tables
+tables <- lapply(table_names, dbReadTable, conn = con)
+
+# Disconnect from the database
+dbDisconnect(con)
+
+#----------------------------------------------------------------------------------------
+# QUERIES
+# dbGetQuery(connection, query)
+# ---------------------------------------------------------------------------------------
+
+# Import tweat_id column of comments where user_id is 1: elisabeth
+elisabeth <- dbGetQuery(con, "SELECT tweat_id FROM comments
+                                      WHERE user_id = 1")
+
+# Import post column of tweats where date is higher than '2015-09-21': latest
+latest <- dbGetQuery(con, "SELECT post FROM tweats
+                              WHERE date > '2015-09-21'")
+                              
+
+#----------------------------------------------------------------------------------------
+# CURSOR
+# ---------------------------------------------------------------------------------------
+
+# Send query to the database
+res <- dbSendQuery(con, "SELECT * FROM comments WHERE user_id > 4")
+
+# Use dbFetch() to get the 2 firts results
+dbFetch(res, 2)
+
+Use dbFetch() to get the rest of the results
+dbFetch(res)
+
+# Clear res
+dbClearResult(res)
+
