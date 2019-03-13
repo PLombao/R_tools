@@ -20,6 +20,15 @@ ggplot(gapminder_1952,
   geom_point() +
   scale_x_log10()
   
+  
+  
+"""
+Scatter - categorical
+"""
+gplot(gapminder_1952, aes(x = factor(pop), y = lifeExp)) +
+  geom_point()
+  
+  
 """
 Faceting: divide the data in subplots 
 with a categorical data as a reference
