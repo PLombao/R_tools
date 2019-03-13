@@ -8,7 +8,7 @@ ggplot(gapminder_1952, aes(x = pop, y = lifeExp)) +
   scale_y_log10()
   
 """
-scatter plot with colour and size
+scatter plot with colour, shape and size
 """
 
 # Scatter plot comparing pop and lifeExp, with color representing continent
@@ -16,7 +16,8 @@ ggplot(gapminder_1952,
         aes(x = pop, 
         y = lifeExp,
         col = continent,
-        size = gdpPercap)) +
+        size = gdpPercap,
+        shape = categorial)) +
   geom_point() +
   scale_x_log10()
   
