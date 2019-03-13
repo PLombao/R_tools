@@ -62,7 +62,8 @@ ggplot(gapminder, aes(x = gdpPercap,
   facet_wrap(~ year)
   
 """
-OTHERS
+SCATTER CON RECTA
+"""
 
-+ geom_smooth(aes(col = clarity), se = FALSE)
++ geom_smooth(method = 'lm', aes(col = clarity), se = FALSE)
 
