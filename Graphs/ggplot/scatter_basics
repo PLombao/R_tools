@@ -65,5 +65,5 @@ ggplot(gapminder, aes(x = gdpPercap,
 SCATTER CON RECTA
 """
 
-+ geom_smooth(method = 'lm', aes(col = clarity), se = FALSE)
++ geom_smooth(method = 'lm', aes(col = clarity), se = FALSE, linetype=2)
 
