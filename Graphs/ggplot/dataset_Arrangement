@@ -1,4 +1,6 @@
 """
+FROM NORMAL TO TIDY
+
     gather() rearranges the data frame by specifying the columns that are categorical variables with a - notation. Complete the command. Notice that only one variable is categorical in iris.
     separate() splits up the new key column, which contains the former headers, according to .. The new column names "Part" and "Measure" are given in a character vector. Don't forget the quotes.
 
@@ -8,3 +10,21 @@
 iris.tidy <- iris %>%
   gather(key, Value, -Species) %>%
   separate(key, c("Part", "Measure"), "\\.")
+
+"""
+FROM NORMAL TO WIDE
+gather() rearranges the data frame by specifying the columns that are categorical variables with a - notation. In this case, Species and Flower are categorical. Complete the command.
+separate() splits up the new key column, which contains the former headers, according to .. The new column names "Part" and "Measure" are given in a character vector.
+The last step is to use spread() to distribute the new Measure column and associated value column into two columns.
+"""
+# Load the tidyr package
+library(tidyr)
+
+# Add column with unique ids (don't need to change)
+iris$Flower <- 1:nrow(iris)
+
+# Fill in the ___ to produce to the correct iris.wide dataset
+iris.wide <- iris %>%
+  gather(key, value, -Species, -Flower) %>%
+  separate(key, c("Part", "Measure"), "\\.") %>%
+  spread(Measure, value)
