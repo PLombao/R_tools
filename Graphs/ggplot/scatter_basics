@@ -1,3 +1,13 @@
+"""geom_point aesthetic
+
++ geom_point(alpha=0.4,
+
+
+)
+
+"""
+
+
 """
 scatter plot with log scale
 """
@@ -50,3 +60,9 @@ ggplot(gapminder, aes(x = gdpPercap,
   geom_point() +
   scale_x_log10() +
   facet_wrap(~ year)
+  
+"""
+OTHERS
+
++ geom_smooth(aes(col = clarity), se = FALSE)
+
