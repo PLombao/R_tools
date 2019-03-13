@@ -1,0 +1,9 @@
+"""
+AJUSTE DE TODOS LOS DATOS (UNICA RECTA)
+Y UNA RECTA POR CADA GRUPO DE UNA VARIABLE CATEGORICA
+"""
+#include a lm for the entire dataset in its whole
+ggplot(mtcars, aes(x = wt, y = mpg, col = cyl)) +
+  geom_point() + # Copy from Plot 1
+  geom_smooth(method='lm', se=FALSE) +  # Fill in using instructions Plot 2
+  geom_smooth(aes(group=1),method='lm', se=FALSE, linetype=2)
