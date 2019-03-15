@@ -1,0 +1,10 @@
+ggplot(by_measure, aes(x=Measure, y=Value)) +
+    geom_segment( aes(x=Measure, xend=Measure, y=1, yend=5)) +
+
+    # geom_point( size=5, color="black", aes(fill=Measure), alpha=1, shape=21, stroke=2) + # this two for conditional colors
+    # scale_fill_manual(values=c("yellow", "red","cyan","grey")) +
+
+    geom_point( size=5, color="black", fill=("orange",0.3), alpha=1, shape=21, stroke=2) +
+    
+    labs(x = "", y="") +
+    theme_light()
